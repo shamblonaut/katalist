@@ -7,9 +7,12 @@ function createKata(name, color) {
   const getColor = () => color;
   const getActions = () => actions;
 
+  const setName = (newName) => { name = newName };
+  const setColor = (newColor) => { color = newColor };
+
   const addAction = (title, description, priority, dueDate) => {
     const action = createAction(title, description, priority, dueDate);
-    actions.push(action);
+    actions.unshift(action);
     return action;
   };
 
@@ -17,7 +20,7 @@ function createKata(name, color) {
     actions.splice(index, 1);
   };
 
-  return { getName, getColor, getActions, addAction, removeAction };
+  return { getName, getColor, getActions, setName, setColor, addAction, removeAction };
 }
 
 export { createKata };
