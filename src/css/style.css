@@ -9,15 +9,18 @@
 :root {
   --neutral-black: #003366;
   --neutral-white: #f2f2f2;
-  --neutral-grey: #e4e4e4;
-  --accent-color: #669999;
 
-  --neutral-black-filter: invert(10%) sepia(93%) saturate(2472%) hue-rotate(198deg) brightness(103%) contrast(101%);
-  --neutral-white-filter: invert(100%) sepia(64%) saturate(64%) hue-rotate(263deg) brightness(112%) contrast(90%);
-  --accent-filter: invert(58%) sepia(10%) saturate(1116%) hue-rotate(131deg) brightness(96%) contrast(86%);
+  --neutral-black-filter: invert(10%) sepia(93%) saturate(2472%)
+    hue-rotate(198deg) brightness(103%) contrast(101%);
+  --neutral-white-filter: invert(100%) sepia(64%) saturate(64%)
+    hue-rotate(263deg) brightness(112%) contrast(90%);
+  --accent-filter: invert(58%) sepia(10%) saturate(1116%) hue-rotate(131deg)
+    brightness(96%) contrast(86%);
 }
 
-.katas, .kata-options-list, .kata {
+.katas,
+.kata,
+.action-card {
   background: linear-gradient(135deg, #00336680, #00000000);
   backdrop-filter: blur(8px);
   border: 1px solid #00336630;
@@ -34,6 +37,7 @@ button {
   background: none;
   border: none;
   color: var(--neutral-white);
+  cursor: pointer;
 }
 
 li {
@@ -56,7 +60,9 @@ html {
 body {
   position: relative;
   font-family: "Poppins";
-  background: linear-gradient(#00000030, #00000030), url("../../assets/backgrounds/rainy-sunset-cityscape.jpg") no-repeat center/100%;
+  background: linear-gradient(#00000030, #00000030),
+    url("../../assets/backgrounds/rainy-sunset-cityscape.jpg") no-repeat
+      center/100%;
   background-position-x: 15%;
   background-size: cover;
   color: var(--neutral-white);
@@ -93,13 +99,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--accent-color);
+  color: var(--neutral-white);
   font-weight: 600;
   margin-bottom: 16px;
 }
 
 .kata-plus-btn img {
-  filter: var(--accent-filter);
   width: 24px;
   height: auto;
 }
@@ -110,6 +115,7 @@ body {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   margin: 12px 0;
+  cursor: pointer;
 }
 
 .kata-list-item-name {
@@ -128,11 +134,12 @@ body {
 
 .kata-options-list {
   position: absolute;
-  left: 75%;
+  right: 0;
   top: 100%;
   z-index: 1;
   padding: 8px;
   border-radius: 4px;
+  background-color: var(--neutral-black);
   border: 1px solid #f2f2f240;
 
   display: flex;
@@ -195,14 +202,13 @@ body {
 }
 
 .popup-submit-btn {
-  background-color: var(--accent-color);
+  background-color: var(--neutral-black);
   padding: 12px;
   margin-top: 16px;
   border-radius: 4px;
   color: var(--neutral-white);
   font-weight: 600;
 }
-
 
 .kata {
   position: absolute;
@@ -212,10 +218,179 @@ body {
   transition: transform ease-in 250ms;
 
   border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.kata-header {
+  text-align: center;
+  padding: 24px 0 8px 0;
+  font-size: 2rem;
+  font-family: "Montserrat";
+  position: relative;
+  width: 100%;
+}
 
+.go-back-btn {
+  position: absolute;
+  top: 26px;
+  left: 24px;
+  display: flex;
+}
+
+.go-back-btn img {
+  width: 40px;
+  height: auto;
+}
+
+.kata-header-gutter {
+  width: 90%;
+  min-height: 2px;
+  margin-bottom: 16px;
+}
+
+.completion-meter {
+  height: 100%;
+}
+
+.kata-content {
+  width: min(80%, 600px);
+  padding: 16px 0;
+}
+
+.action-list {
+  height: 80vh;
+  overflow-y: scroll;
+  padding-right: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00336680, #00336640);
+  backdrop-filter: blur(8px);
+  border-radius: 4px;
+}
+
+@supports (scrollbar-color: red blue) {
+  * {
+    scrollbar-color: var(--neutral-black) #00000000;
+    scrollbar-width: thin;
+  }
+}
+
+.actions-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  border-bottom: 2px solid var(--neutral-black);
+  padding: 0 4px;
+}
+
+.action-item {
+  padding: 8px 0 8px 4px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+}
+
+.action-item .action-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.checkbox {
+  margin: 6px;
+}
+
+.action-item .expand-button {
+  margin-left: 8px;
+}
+
+.action-card .checkbox {
+  margin-bottom: 10px;
+}
 
 .completed .action-title {
   text-decoration: line-through;
+}
+
+.action-card {
+  padding: 8px;
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  box-shadow: none;
+  border-radius: 8px;
+}
+
+.action-card .action-title {
+  font-weight: 600;
+}
+
+.action-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+img.priority-flag {
+  width: 16px;
+  height: auto;
+}
+
+.flag-low {
+  display: none;
+}
+
+.flag-medium {
+  filter: invert(100%) sepia(96%) saturate(4366%) hue-rotate(357deg)
+    brightness(107%) contrast(101%);
+}
+
+.flag-high {
+  filter: invert(56%) sepia(95%) saturate(984%) hue-rotate(1deg)
+    brightness(104%) contrast(105%);
+}
+
+.flag-urgent {
+  filter: invert(13%) sepia(76%) saturate(6675%) hue-rotate(6deg)
+    brightness(124%) contrast(131%);
+}
+
+.action-detail {
+  font-size: 0.9rem;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.action-detail label {
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.action-detail input {
+  margin: 8px 0;
+}
+
+.action-description {
+  margin-bottom: 1rem;
+}
+
+.action-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-actions button {
+  padding: 4px 0;
 }

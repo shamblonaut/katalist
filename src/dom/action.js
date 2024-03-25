@@ -1,4 +1,12 @@
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
+
+import alertIcon from "../../assets/icons/alert-triangle.svg";
+import bookmarkIcon from "../../assets/icons/bookmark.svg";
+import arrowDownIcon from "../../assets/icons/chevron-down.svg";
+import arrowUpIcon from "../../assets/icons/chevron-up.svg";
+import editIcon from "../../assets/icons/edit.svg";
+import saveIcon from "../../assets/icons/save.svg";
+import trashIcon from "../../assets/icons/trash.svg";
 
 function createActionItem(action, kata, index) {
   const actionItem = document.createElement("li");
@@ -20,6 +28,9 @@ function createActionItem(action, kata, index) {
   checkbox.addEventListener("click", () => {
     actionItem.classList.toggle("completed");
     action.setCompleted(checkbox.checked);
+
+    const completionMeter = document.querySelector(".completion-meter");
+    completionMeter.style.width = `${kata.getCompletionPercentage()}%`;
   });
 
   const actionTitle = document.createElement("p");
@@ -27,16 +38,26 @@ function createActionItem(action, kata, index) {
   actionTitle.textContent = action.getTitle();
   actionItem.appendChild(actionTitle);
 
+  const priorityFlag = document.createElement("img");
+  priorityFlag.classList.add("priority-flag");
+  priorityFlag.src =
+    action.getPriority() === "urgent" ? alertIcon : bookmarkIcon;
+  priorityFlag.classList.add("priority-flag");
+  priorityFlag.classList.add(`flag-${action.getPriority()}`);
+  actionItem.appendChild(priorityFlag);
+
   const expandButton = document.createElement("button");
   expandButton.classList.add("expand-button");
   const expandIcon = document.createElement("img");
-  expandIcon.src = "../../assets/icons/chevron-down.svg";
+  expandIcon.src = arrowDownIcon;
   expandIcon.alt = "Expand";
   expandButton.appendChild(expandIcon);
   actionItem.appendChild(expandButton);
 
-  expandButton.addEventListener("click", () => toggleActionDisplayMode(actionItem, action, kata, index));
-  
+  expandButton.addEventListener("click", () =>
+    toggleActionDisplayMode(actionItem, action, kata, index)
+  );
+
   return actionItem;
 }
 
@@ -45,16 +66,15 @@ function toggleActionDisplayMode(element, action, kata, index) {
 
   if (element.classList.contains("action-item")) {
     actionList.replaceChild(createActionCard(action, kata, index), element);
-  }
-  else if (element.classList.contains("action-card")) {
+  } else if (element.classList.contains("action-card")) {
     actionList.replaceChild(createActionItem(action, kata, index), element);
   }
 }
 
-
-function createActionCard(action, kata, index, newCard=false) {
+function createActionCard(action, kata, index, newCard = false) {
   const actionCard = document.createElement("li");
   actionCard.classList.add("action-card");
+  actionCard.style.background = `linear-gradient(135deg, ${kata.getColor()}40, #00000000)`;
 
   const actionStatus = document.createElement("div");
   actionStatus.classList.add("action-status");
@@ -73,11 +93,18 @@ function createActionCard(action, kata, index, newCard=false) {
 
   checkbox.addEventListener("click", () => {
     actionCard.classList.toggle("completed");
-    action.setCompleted(checkbox.checked)
+    action.setCompleted(checkbox.checked);
+
+    const completionMeter = document.querySelector(".completion-meter");
+    completionMeter.style.width = `${kata.getCompletionPercentage()}%`;
   });
 
-  const priorityFlag = document.createElement("div");
+  const priorityFlag = document.createElement("img");
   priorityFlag.classList.add("priority-flag");
+  priorityFlag.src =
+    action.getPriority() === "urgent" ? alertIcon : bookmarkIcon;
+  priorityFlag.classList.add("priority-flag");
+  priorityFlag.classList.add(`flag-${action.getPriority()}`);
   actionStatus.appendChild(priorityFlag);
 
   const actionDetails = document.createElement("div");
@@ -90,12 +117,6 @@ function createActionCard(action, kata, index, newCard=false) {
 
   const actionDescription = document.createElement("div");
   actionDescription.classList.add("action-description", "action-detail");
-  
-  const descriptionLabel = document.createElement("label");
-  descriptionLabel.classList.add("action-description-label");
-  descriptionLabel.textContent = "Description: ";
-  descriptionLabel.for = "description";
-  actionDescription.appendChild(descriptionLabel);
 
   const actionDescriptionValue = document.createElement("p");
   actionDescriptionValue.classList.add("action-description-value");
@@ -132,7 +153,10 @@ function createActionCard(action, kata, index, newCard=false) {
   const priorityValue = document.createElement("p");
   priorityValue.classList.add("action-priority-value");
   const priorityValueString = action.getPriority();
-  priorityValue.textContent = priorityValueString.replace(priorityValueString[0], priorityValueString[0].toUpperCase());
+  priorityValue.textContent = priorityValueString.replace(
+    priorityValueString[0],
+    priorityValueString[0].toUpperCase()
+  );
   actionPriority.appendChild(priorityValue);
 
   actionDetails.appendChild(actionPriority);
@@ -145,17 +169,19 @@ function createActionCard(action, kata, index, newCard=false) {
   const closeCardButton = document.createElement("button");
   closeCardButton.classList.add("close-card-button");
   const closeCardIcon = document.createElement("img");
-  closeCardIcon.src = "../../assets/icons/chevron-up.svg";
+  closeCardIcon.src = arrowUpIcon;
   closeCardIcon.alt = "Close";
   closeCardButton.appendChild(closeCardIcon);
   actionActions.appendChild(closeCardButton);
 
-  closeCardButton.addEventListener("click", () => toggleActionDisplayMode(actionCard, action, kata, index));
+  closeCardButton.addEventListener("click", () =>
+    toggleActionDisplayMode(actionCard, action, kata, index)
+  );
 
   const editCardButton = document.createElement("button");
   editCardButton.classList.add("edit-card-button");
   const editCardIcon = document.createElement("img");
-  editCardIcon.src = "../../assets/icons/edit.svg";
+  editCardIcon.src = editIcon;
   editCardIcon.alt = "Edit";
   editCardButton.appendChild(editCardIcon);
   actionActions.appendChild(editCardButton);
@@ -163,13 +189,18 @@ function createActionCard(action, kata, index, newCard=false) {
   const editCard = (newCard) => {
     const actionTitleInput = document.createElement("input");
     actionTitleInput.classList.add("action-title-input", "action-detail");
+    actionTitleInput.placeholder = "Action";
     actionTitleInput.value = action.getTitle();
     actionDetails.replaceChild(actionTitleInput, actionTitleValue);
 
-    const actionDescriptionInput = document.createElement("textarea");
+    const actionDescriptionInput = document.createElement("input");
     actionDescriptionInput.classList.add("action-description-input");
+    actionDescriptionInput.placeholder = "Description";
     actionDescriptionInput.value = action.getDescription();
-    actionDescription.replaceChild(actionDescriptionInput, actionDescriptionValue);
+    actionDescription.replaceChild(
+      actionDescriptionInput,
+      actionDescriptionValue
+    );
 
     const actionDueDateInput = document.createElement("input");
     actionDueDateInput.classList.add("action-due-date-input");
@@ -202,7 +233,7 @@ function createActionCard(action, kata, index, newCard=false) {
     urgentPriorityOption.text = "Urgent";
     actionPrioritySelect.appendChild(urgentPriorityOption);
 
-    switch(action.getPriority()) {
+    switch (action.getPriority()) {
       case "low":
         lowPriorityOption.selected = true;
         break;
@@ -220,26 +251,34 @@ function createActionCard(action, kata, index, newCard=false) {
     const saveCardButton = document.createElement("button");
     saveCardButton.classList.add("save-card-button");
     const saveCardIcon = document.createElement("img");
-    saveCardIcon.src = "../../assets/icons/save.svg";
+    saveCardIcon.src = saveIcon;
     saveCardIcon.alt = "Save";
     saveCardButton.appendChild(saveCardIcon);
     actionActions.appendChild(saveCardButton);
 
     saveCardButton.addEventListener("click", () => {
-      if (newCard && actionTitleInput.value.trim() === "") {
+      if (actionTitleInput.value.trim() === "") {
         alert("Please enter a title for the action");
         return;
       }
 
       action.setTitle(actionTitleInput.value);
       action.setDescription(actionDescriptionInput.value);
-      action.setDueDate(actionDueDateInput.value ? actionDueDateInput.value : action.getDueDate());
+      action.setDueDate(
+        actionDueDateInput.value
+          ? actionDueDateInput.value
+          : action.getDueDate()
+      );
       action.setPriority(actionPrioritySelect.value);
-      
+      kata.prependAction(action);
+
       closeCardButton.style.display = "";
 
       const actionList = document.querySelector(".action-list");
-      actionList.replaceChild(createActionCard(action, kata, index), actionCard);
+      actionList.replaceChild(
+        createActionCard(action, kata, index),
+        actionCard
+      );
     });
 
     actionActions.replaceChild(saveCardButton, editCardButton);
@@ -251,7 +290,7 @@ function createActionCard(action, kata, index, newCard=false) {
   const removeCardButton = document.createElement("button");
   removeCardButton.classList.add("remove-card-button");
   const removeCardIcon = document.createElement("img");
-  removeCardIcon.src = "../../assets/icons/trash.svg";
+  removeCardIcon.src = trashIcon;
   removeCardIcon.alt = "Remove";
   removeCardButton.appendChild(removeCardIcon);
   actionActions.appendChild(removeCardButton);
@@ -264,12 +303,11 @@ function createActionCard(action, kata, index, newCard=false) {
 
   actionCard.appendChild(actionActions);
 
-
   if (newCard) {
     const actionList = document.querySelector(".action-list");
     actionList.insertBefore(actionCard, actionList.firstChild);
     editCard(true);
-  };
+  }
 
   return actionCard;
 }

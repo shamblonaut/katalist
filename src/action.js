@@ -38,7 +38,7 @@ function createAction(title, description, priority, dueDate) {
     setDescription,
     setPriority,
     setDueDate,
-    setCompleted
+    setCompleted,
   };
 }
 

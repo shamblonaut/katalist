@@ -1,6 +1,10 @@
 import { openKataPage } from "./kata";
 import { editKataPopup, newKataPopup } from "./popup";
 
+import moreIcon from "../../assets/icons/more-vertical.svg";
+import penIcon from "../../assets/icons/edit-3.svg";
+import trashIcon from "../../assets/icons/trash.svg";
+
 function createKataListItem(kata, katas) {
   const listItem = document.createElement("li");
   listItem.classList.add("kata-list-item");
@@ -18,7 +22,7 @@ function createKataListItem(kata, katas) {
   const kataOptionsButton = document.createElement("button");
   kataOptionsButton.classList.add("kata-options-btn");
   const kataOptionsIcon = document.createElement("img");
-  kataOptionsIcon.src = "../../assets/icons/more-vertical.svg";
+  kataOptionsIcon.src = moreIcon;
   kataOptionsButton.appendChild(kataOptionsIcon);
   listItem.appendChild(kataOptionsButton);
 
@@ -28,7 +32,7 @@ function createKataListItem(kata, katas) {
     if (existingPopup) {
       const parent = existingPopup.parentNode;
       parent.removeChild(existingPopup);
-      
+
       if (parent === listItem) return;
     }
 
@@ -38,19 +42,22 @@ function createKataListItem(kata, katas) {
     const editOption = document.createElement("button");
     editOption.classList.add("kata-option");
     editOption.classList.add("kata-edit-option-btn");
-    
+
     const editIcon = document.createElement("img");
-    editIcon.src = "../../assets/icons/edit-3.svg";
+    editIcon.src = penIcon;
     editOption.appendChild(editIcon);
 
     const editOptionText = document.createElement("p");
     editOptionText.classList.add("kata-edit-option-txt");
     editOptionText.textContent = "Edit";
     editOption.appendChild(editOptionText);
-    
+
     editOption.addEventListener("click", (event) => {
       event.stopPropagation();
-      editKataPopup(katas, Array.prototype.indexOf.call(listItem.parentNode.childNodes, listItem));
+      editKataPopup(
+        katas,
+        Array.prototype.indexOf.call(listItem.parentNode.childNodes, listItem)
+      );
     });
 
     optionsList.appendChild(editOption);
@@ -58,19 +65,19 @@ function createKataListItem(kata, katas) {
     const deleteOption = document.createElement("button");
     deleteOption.classList.add("kata-option");
     deleteOption.classList.add("kata-edit-option-btn");
-    
+
     const deleteIcon = document.createElement("img");
-    deleteIcon.src = "../../assets/icons/trash.svg";
+    deleteIcon.src = trashIcon;
     deleteOption.appendChild(deleteIcon);
 
     const deleteOptionText = document.createElement("p");
     deleteOptionText.classList.add("kata-edit-option-txt");
     deleteOptionText.textContent = "Delete";
     deleteOption.appendChild(deleteOptionText);
-    
+
     deleteOption.addEventListener("click", (event) => {
       const kataList = document.querySelector(".kata-list");
-      const index = Array.prototype.indexOf.call(kataList.childNodes, listItem);;
+      const index = Array.prototype.indexOf.call(kataList.childNodes, listItem);
       kataList.removeChild(kataList.childNodes[index]);
       katas.splice(index, 1);
       event.stopPropagation();
@@ -84,7 +91,6 @@ function createKataListItem(kata, katas) {
     const existingPopup = document.querySelector(".kata-options-list");
     if (existingPopup) existingPopup.parentNode.removeChild(existingPopup);
   });
-
 
   listItem.addEventListener("click", () => {
     openKataPage(kata);
@@ -100,7 +106,9 @@ function displayKataList(katas) {
   });
 
   const kataPlusButton = document.querySelector(".kata-plus-btn");
-  kataPlusButton.addEventListener("click", () => { newKataPopup(katas) });
+  kataPlusButton.addEventListener("click", () => {
+    newKataPopup(katas);
+  });
 }
 
 function randomHex() {

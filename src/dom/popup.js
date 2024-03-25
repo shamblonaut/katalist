@@ -1,6 +1,8 @@
 import { createKata } from "../kata";
 import { createKataListItem } from "./home";
 
+import crossIcon from "../../assets/icons/x.svg";
+
 function newKataPopup(katas) {
   const popupContainer = document.createElement("div");
   popupContainer.classList.add("popup-container");
@@ -24,7 +26,7 @@ function newKataPopup(katas) {
 
   const popupPrompt = document.createElement("p");
   popupPrompt.classList.add("popup-prompt");
-  popupPrompt.textContent ="New Kata";
+  popupPrompt.textContent = "New Kata";
   popupHeader.appendChild(popupPrompt);
 
   const closePopupButton = document.createElement("button");
@@ -34,7 +36,7 @@ function newKataPopup(katas) {
   popupHeader.appendChild(closePopupButton);
 
   const closePopupIcon = document.createElement("img");
-  closePopupIcon.src = "../../assets/icons/x.svg";
+  closePopupIcon.src = crossIcon;
   closePopupIcon.alt = "Close Popup";
   closePopupButton.appendChild(closePopupIcon);
 
@@ -111,7 +113,7 @@ function editKataPopup(katas, index) {
 
   const popupPrompt = document.createElement("p");
   popupPrompt.classList.add("popup-prompt");
-  popupPrompt.textContent ="Edit Kata";
+  popupPrompt.textContent = "Edit Kata";
   popupHeader.appendChild(popupPrompt);
 
   const closePopupButton = document.createElement("button");
@@ -121,7 +123,7 @@ function editKataPopup(katas, index) {
   popupHeader.appendChild(closePopupButton);
 
   const closePopupIcon = document.createElement("img");
-  closePopupIcon.src = "../../assets/icons/x.svg";
+  closePopupIcon.src = crossIcon;
   closePopupIcon.alt = "Close Popup";
   closePopupButton.appendChild(closePopupIcon);
 
@@ -143,6 +145,7 @@ function editKataPopup(katas, index) {
   const nameInput = document.createElement("input");
   nameInput.classList.add("name-input");
   nameInput.name = "name";
+  nameInput.value = katas[index].getName();
   nameField.appendChild(nameInput);
 
   const colorField = document.createElement("div");
@@ -158,6 +161,7 @@ function editKataPopup(katas, index) {
   colorInput.classList.add("color-input");
   colorInput.type = "color";
   colorInput.name = "color";
+  colorInput.value = katas[index].getColor();
   colorField.appendChild(colorInput);
 
   const saveButton = document.createElement("button");
@@ -170,9 +174,11 @@ function editKataPopup(katas, index) {
     const kataList = document.querySelector(".kata-list");
     katas[index].setName(nameInput.value);
     katas[index].setColor(colorInput.value);
-    kataList.replaceChild(createKataListItem(katas[index]), kataList.childNodes[index]);
+    kataList.replaceChild(
+      createKataListItem(katas[index]),
+      kataList.childNodes[index]
+    );
     closePopup();
-    console.log(katas);
   });
 }
 
