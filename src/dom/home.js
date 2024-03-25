@@ -16,7 +16,7 @@ function createKataListItem(kata, katas) {
   listItem.appendChild(kataName);
 
   const kataOptionsButton = document.createElement("button");
-  kataOptionsButton.classList.add("kata-options");
+  kataOptionsButton.classList.add("kata-options-btn");
   const kataOptionsIcon = document.createElement("img");
   kataOptionsIcon.src = "../../assets/icons/more-vertical.svg";
   kataOptionsButton.appendChild(kataOptionsIcon);
@@ -36,6 +36,7 @@ function createKataListItem(kata, katas) {
     optionsList.classList.add("kata-options-list");
 
     const editOption = document.createElement("button");
+    editOption.classList.add("kata-option");
     editOption.classList.add("kata-edit-option-btn");
     
     const editIcon = document.createElement("img");
@@ -55,6 +56,7 @@ function createKataListItem(kata, katas) {
     optionsList.appendChild(editOption);
 
     const deleteOption = document.createElement("button");
+    deleteOption.classList.add("kata-option");
     deleteOption.classList.add("kata-edit-option-btn");
     
     const deleteIcon = document.createElement("img");

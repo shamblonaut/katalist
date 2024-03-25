@@ -19,30 +19,34 @@ function newKataPopup(katas) {
       closePopup();
   });
 
-  const formHeader = document.createElement("div");
-  formHeader.classList.add("form-header");
+  const popupHeader = document.createElement("div");
+  popupHeader.classList.add("popup-header");
 
-  const formPrompt = document.createElement("p");
-  formPrompt.classList.add("form-prompt");
-  formPrompt.textContent ="Create new Kata";
-  formHeader.appendChild(formPrompt);
+  const popupPrompt = document.createElement("p");
+  popupPrompt.classList.add("popup-prompt");
+  popupPrompt.textContent ="New Kata";
+  popupHeader.appendChild(popupPrompt);
 
   const closePopupButton = document.createElement("button");
   closePopupButton.type = "button";
   closePopupButton.classList.add("close-popup-btn");
   closePopupButton.addEventListener("click", closePopup);
-  formHeader.appendChild(closePopupButton);
+  popupHeader.appendChild(closePopupButton);
 
   const closePopupIcon = document.createElement("img");
   closePopupIcon.src = "../../assets/icons/x.svg";
   closePopupIcon.alt = "Close Popup";
   closePopupButton.appendChild(closePopupIcon);
 
-  popup.appendChild(formHeader);
+  popup.appendChild(popupHeader);
+
+  const popupFields = document.createElement("div");
+  popupFields.classList.add("popup-fields");
+  popup.appendChild(popupFields);
 
   const nameField = document.createElement("div");
-  nameField.classList.add("name-field");
-  popup.appendChild(nameField);
+  nameField.classList.add("field", "name-field");
+  popupFields.appendChild(nameField);
 
   const nameLabel = document.createElement("label");
   nameLabel.for = "name";
@@ -55,8 +59,8 @@ function newKataPopup(katas) {
   nameField.appendChild(nameInput);
 
   const colorField = document.createElement("div");
-  colorField.classList.add("color-field");
-  popup.appendChild(colorField);
+  colorField.classList.add("field", "color-field");
+  popupFields.appendChild(colorField);
 
   const colorLabel = document.createElement("label");
   colorLabel.for = "color";
@@ -70,7 +74,7 @@ function newKataPopup(katas) {
   colorField.appendChild(colorInput);
 
   const createButton = document.createElement("button");
-  createButton.classList.add("new-kata-form-btn");
+  createButton.classList.add("popup-submit-btn");
   createButton.type = "button";
   createButton.textContent = "Create";
   popup.appendChild(createButton);
@@ -102,30 +106,34 @@ function editKataPopup(katas, index) {
       closePopup();
   });
 
-  const formHeader = document.createElement("div");
-  formHeader.classList.add("form-header");
+  const popupHeader = document.createElement("div");
+  popupHeader.classList.add("popup-header");
 
-  const formPrompt = document.createElement("p");
-  formPrompt.classList.add("form-prompt");
-  formPrompt.textContent ="Edit Kata";
-  formHeader.appendChild(formPrompt);
+  const popupPrompt = document.createElement("p");
+  popupPrompt.classList.add("popup-prompt");
+  popupPrompt.textContent ="Edit Kata";
+  popupHeader.appendChild(popupPrompt);
 
   const closePopupButton = document.createElement("button");
   closePopupButton.type = "button";
   closePopupButton.classList.add("close-popup-btn");
   closePopupButton.addEventListener("click", closePopup);
-  formHeader.appendChild(closePopupButton);
+  popupHeader.appendChild(closePopupButton);
 
   const closePopupIcon = document.createElement("img");
   closePopupIcon.src = "../../assets/icons/x.svg";
   closePopupIcon.alt = "Close Popup";
   closePopupButton.appendChild(closePopupIcon);
 
-  popup.appendChild(formHeader);
+  popup.appendChild(popupHeader);
+
+  const popupFields = document.createElement("div");
+  popupFields.classList.add("popup-fields");
+  popup.appendChild(popupFields);
 
   const nameField = document.createElement("div");
-  nameField.classList.add("name-field");
-  popup.appendChild(nameField);
+  nameField.classList.add("field", "name-field");
+  popupFields.appendChild(nameField);
 
   const nameLabel = document.createElement("label");
   nameLabel.for = "name";
@@ -138,8 +146,8 @@ function editKataPopup(katas, index) {
   nameField.appendChild(nameInput);
 
   const colorField = document.createElement("div");
-  colorField.classList.add("color-field");
-  popup.appendChild(colorField);
+  colorField.classList.add("field", "color-field");
+  popupFields.appendChild(colorField);
 
   const colorLabel = document.createElement("label");
   colorLabel.for = "color";
@@ -153,7 +161,7 @@ function editKataPopup(katas, index) {
   colorField.appendChild(colorInput);
 
   const saveButton = document.createElement("button");
-  saveButton.classList.add("new-kata-form-btn");
+  saveButton.classList.add("popup-submit-btn");
   saveButton.type = "button";
   saveButton.textContent = "Save Changes";
   popup.appendChild(saveButton);

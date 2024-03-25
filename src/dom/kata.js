@@ -1,10 +1,11 @@
 import { createActionItem, createActionCard } from "./action";
 
-function openKataPage(kata) {
+async function openKataPage(kata) {
   const kataPage = document.querySelector(".kata");
-  kataPage.classList.remove("hidden");
-  kataPage.style.left = "100vw";
   kataPage.style.transform = "translateX(-100vw)";
+
+  const homePage = document.querySelector(".home");
+  homePage.style.transform = "translateX(-100vw)";
 
   const goBackButton = document.querySelector(".go-back-btn");
   goBackButton.removeEventListener("click", closeKataPage);
@@ -24,17 +25,17 @@ function openKataPage(kata) {
 }
 
 async function closeKataPage() {
+  const kataPage = document.querySelector(".kata");
+  kataPage.style.transform = "";
+
+  const homePage = document.querySelector(".home");
+  homePage.style.transform = "";
+  await new Promise(r => setTimeout(r, 250));
+
   const actionList = document.querySelector(".action-list");
   while(actionList.hasChildNodes()) {
     actionList.removeChild(actionList.firstChild);
   }
-  
-  const kataPage = document.querySelector(".kata");
-  kataPage.style.transform = "translateX(100vw)";
-  await new Promise(r => setTimeout(r, 200));
-  kataPage.style.left = "";
-  kataPage.classList.add("hidden");
-  kataPage.style.transform = "";
 }
 
 export { openKataPage, closeKataPage };
