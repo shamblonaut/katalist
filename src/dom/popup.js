@@ -146,7 +146,7 @@ function editKataPopup(index) {
   const nameInput = document.createElement("input");
   nameInput.classList.add("name-input");
   nameInput.name = "name";
-  nameInput.value = katalist[index].getName();
+  nameInput.value = katalist[index].name;
   nameField.appendChild(nameInput);
 
   const colorField = document.createElement("div");
@@ -162,7 +162,7 @@ function editKataPopup(index) {
   colorInput.classList.add("color-input");
   colorInput.type = "color";
   colorInput.name = "color";
-  colorInput.value = katalist[index].getColor();
+  colorInput.value = katalist[index].color;
   colorField.appendChild(colorInput);
 
   const saveButton = document.createElement("button");

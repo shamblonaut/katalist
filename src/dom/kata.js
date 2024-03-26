@@ -29,12 +29,10 @@ async function openKataPage(kata) {
 
   const completionMeter = document.querySelector(".completion-meter");
   completionMeter.style.backgroundColor = kata.color;
-  completionMeter.style.width = `${getCompletionPercentage()}%`;
+  completionMeter.style.width = `${getCompletionPercentage(kata)}%`;
 
   const actionList = document.querySelector(".action-list");
-  kata
-    .getActions()
-    .forEach((action, index) =>
+  kata.actions.forEach((action, index) =>
       actionList.appendChild(createActionItem(action, kata, index))
     );
 }

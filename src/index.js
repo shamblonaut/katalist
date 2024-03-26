@@ -5,7 +5,7 @@ import { createKata, addAction } from "./kata";
 
 import { displayKataList } from "./dom/home";
 
-if (!loadKatalist()) {
+if (loadKatalist() === false) {
   // Default kata for first session
   const personalKata = createKata("Personal", "#007FFF");
   addAction(

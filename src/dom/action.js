@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 
+import { saveKatalist } from "../katalist";
 import { getCompletionPercentage, prependAction, removeAction } from "../kata";
 
 import alertIcon from "../../assets/icons/alert-triangle.svg";
@@ -29,10 +30,11 @@ function createActionItem(action, kata, index) {
 
   checkbox.addEventListener("click", () => {
     actionItem.classList.toggle("completed");
-    action.setCompleted(checkbox.checked);
+    action.completed = checkbox.checked;
+    saveKatalist();
 
     const completionMeter = document.querySelector(".completion-meter");
-    completionMeter.style.width = `${getCompletionPercentage()}%`;
+    completionMeter.style.width = `${getCompletionPercentage(kata)}%`;
   });
 
   const actionTitle = document.createElement("p");
@@ -94,10 +96,11 @@ function createActionCard(action, kata, index, newCard = false) {
 
   checkbox.addEventListener("click", () => {
     actionCard.classList.toggle("completed");
-    action.setCompleted(checkbox.checked);
+    action.completed = checkbox.checked;
+    saveKatalist();
 
     const completionMeter = document.querySelector(".completion-meter");
-    completionMeter.style.width = `${getCompletionPercentage()}%`;
+    completionMeter.style.width = `${getCompletionPercentage(kata)}%`;
   });
 
   const priorityFlag = document.createElement("img");
@@ -268,7 +271,8 @@ function createActionCard(action, kata, index, newCard = false) {
         ? actionDueDateInput.value
         : action.dueDate;
       action.priority = actionPrioritySelect.value;
-      prependAction(action), kata;
+      if (newCard) prependAction(action, kata);
+      saveKatalist();
 
       closeCardButton.style.display = "";
 
