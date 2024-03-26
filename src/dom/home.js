@@ -1,4 +1,4 @@
-import { katalist } from "../katalist";
+import { katalist, saveKatalist } from "../katalist";
 
 import { openKataPage } from "./kata";
 import { editKataPopup, newKataPopup } from "./popup";
@@ -81,6 +81,7 @@ function createKataListItem(kata) {
       const index = Array.prototype.indexOf.call(kataList.childNodes, listItem);
       kataList.removeChild(kataList.childNodes[index]);
       katalist.splice(index, 1);
+      saveKatalist();
       event.stopPropagation();
     });
 
@@ -110,13 +111,6 @@ function displayKataList() {
   kataPlusButton.addEventListener("click", () => {
     newKataPopup();
   });
-}
-
-function randomHex() {
-  let n = Math.floor(Math.random() * 16);
-
-  if (n > 9) return String.fromCharCode(97 + (n - 10));
-  else return n;
 }
 
 export { displayKataList, createKataListItem };

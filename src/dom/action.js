@@ -278,7 +278,9 @@ function createActionCard(action, kata, index, newCard = false) {
 
       const actionList = document.querySelector(".action-list");
       actionList.replaceChild(
-        createActionCard(action, kata, index),
+        newCard
+          ? createActionItem(action, kata, index)
+          : createActionCard(action, kata, index),
         actionCard
       );
     });
@@ -301,6 +303,7 @@ function createActionCard(action, kata, index, newCard = false) {
     const actionList = document.querySelector(".action-list");
     actionList.removeChild(actionCard);
     removeAction(index, kata);
+    saveKatalist();
   });
 
   actionCard.appendChild(actionActions);

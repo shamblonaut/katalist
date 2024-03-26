@@ -86,6 +86,7 @@ function newKataPopup() {
     const kataList = document.querySelector(".kata-list");
     const newKata = createKata(nameInput.value, colorInput.value);
     katalist.push(newKata);
+    saveKatalist();
     kataList.appendChild(createKataListItem(newKata));
     closePopup();
   });

@@ -21,8 +21,13 @@ async function openKataPage(kata) {
 
   // Button is replaced with a fresh clone to remove previous event listeners
   const newActionButtonClone = newActionButton.cloneNode(true);
-  newActionButton.parentNode.replaceChild(newActionButtonClone, newActionButton);
-  newActionButtonClone.addEventListener("click", () => createActionCard(createAction("", "", "low", new Date()), kata, 0, true));
+  newActionButton.parentNode.replaceChild(
+    newActionButtonClone,
+    newActionButton
+  );
+  newActionButtonClone.addEventListener("click", () =>
+    createActionCard(createAction("", "", "low", new Date()), kata, 0, true)
+  );
 
   const headerGutter = document.querySelector(".kata-header-gutter");
   headerGutter.style.backgroundColor = `${kata.color}80`;
@@ -33,8 +38,8 @@ async function openKataPage(kata) {
 
   const actionList = document.querySelector(".action-list");
   kata.actions.forEach((action, index) =>
-      actionList.appendChild(createActionItem(action, kata, index))
-    );
+    actionList.appendChild(createActionItem(action, kata, index))
+  );
 }
 
 async function closeKataPage() {

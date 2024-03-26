@@ -6,7 +6,7 @@ function createAction(title, description, priority, dueDate) {
     description,
     priority,
     dueDate,
-    completed
+    completed,
   };
 }
 

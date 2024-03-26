@@ -6,7 +6,7 @@ function createKata(name, color) {
   return {
     name,
     color,
-    actions
+    actions,
   };
 }
 
@@ -33,4 +33,10 @@ function getCompletionPercentage(kata) {
   return (complete / actionCount) * 100;
 }
 
-export { createKata, addAction, prependAction, removeAction, getCompletionPercentage };
+export {
+  createKata,
+  addAction,
+  prependAction,
+  removeAction,
+  getCompletionPercentage,
+};
