@@ -1,3 +1,5 @@
+import { katalist } from "../katalist";
+
 import { openKataPage } from "./kata";
 import { editKataPopup, newKataPopup } from "./popup";
 
@@ -5,18 +7,18 @@ import moreIcon from "../../assets/icons/more-vertical.svg";
 import penIcon from "../../assets/icons/edit-3.svg";
 import trashIcon from "../../assets/icons/trash.svg";
 
-function createKataListItem(kata, katas) {
+function createKataListItem(kata) {
   const listItem = document.createElement("li");
   listItem.classList.add("kata-list-item");
 
   const circle = document.createElement("div");
   circle.classList.add("circle");
-  circle.style.backgroundColor = kata.getColor();
+  circle.style.backgroundColor = kata.color;
   listItem.appendChild(circle);
 
   const kataName = document.createElement("p");
   kataName.classList.add("kata-list-item-name");
-  kataName.textContent = kata.getName();
+  kataName.textContent = kata.name;
   listItem.appendChild(kataName);
 
   const kataOptionsButton = document.createElement("button");
@@ -55,7 +57,6 @@ function createKataListItem(kata, katas) {
     editOption.addEventListener("click", (event) => {
       event.stopPropagation();
       editKataPopup(
-        katas,
         Array.prototype.indexOf.call(listItem.parentNode.childNodes, listItem)
       );
     });
@@ -79,7 +80,7 @@ function createKataListItem(kata, katas) {
       const kataList = document.querySelector(".kata-list");
       const index = Array.prototype.indexOf.call(kataList.childNodes, listItem);
       kataList.removeChild(kataList.childNodes[index]);
-      katas.splice(index, 1);
+      katalist.splice(index, 1);
       event.stopPropagation();
     });
 
@@ -99,15 +100,15 @@ function createKataListItem(kata, katas) {
   return listItem;
 }
 
-function displayKataList(katas) {
+function displayKataList() {
   const kataList = document.querySelector(".kata-list");
-  katas.forEach((kata, index) => {
-    kataList.appendChild(createKataListItem(kata, katas, index));
+  katalist.forEach((kata) => {
+    kataList.appendChild(createKataListItem(kata));
   });
 
   const kataPlusButton = document.querySelector(".kata-plus-btn");
   kataPlusButton.addEventListener("click", () => {
-    newKataPopup(katas);
+    newKataPopup();
   });
 }
 

@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 
+import { getCompletionPercentage, prependAction, removeAction } from "../kata";
+
 import alertIcon from "../../assets/icons/alert-triangle.svg";
 import bookmarkIcon from "../../assets/icons/bookmark.svg";
 import arrowDownIcon from "../../assets/icons/chevron-down.svg";
@@ -20,7 +22,7 @@ function createActionItem(action, kata, index) {
   checkbox.classList.add("checkbox");
   actionItem.appendChild(checkbox);
 
-  if (action.getCompleted()) {
+  if (action.completed) {
     checkbox.checked = true;
     actionItem.classList.add("completed");
   }
@@ -30,20 +32,19 @@ function createActionItem(action, kata, index) {
     action.setCompleted(checkbox.checked);
 
     const completionMeter = document.querySelector(".completion-meter");
-    completionMeter.style.width = `${kata.getCompletionPercentage()}%`;
+    completionMeter.style.width = `${getCompletionPercentage()}%`;
   });
 
   const actionTitle = document.createElement("p");
   actionTitle.classList.add("action-title");
-  actionTitle.textContent = action.getTitle();
+  actionTitle.textContent = action.title;
   actionItem.appendChild(actionTitle);
 
   const priorityFlag = document.createElement("img");
   priorityFlag.classList.add("priority-flag");
-  priorityFlag.src =
-    action.getPriority() === "urgent" ? alertIcon : bookmarkIcon;
+  priorityFlag.src = action.priority === "urgent" ? alertIcon : bookmarkIcon;
   priorityFlag.classList.add("priority-flag");
-  priorityFlag.classList.add(`flag-${action.getPriority()}`);
+  priorityFlag.classList.add(`flag-${action.priority}`);
   actionItem.appendChild(priorityFlag);
 
   const expandButton = document.createElement("button");
@@ -74,7 +75,7 @@ function toggleActionDisplayMode(element, action, kata, index) {
 function createActionCard(action, kata, index, newCard = false) {
   const actionCard = document.createElement("li");
   actionCard.classList.add("action-card");
-  actionCard.style.background = `linear-gradient(135deg, ${kata.getColor()}40, #00000000)`;
+  actionCard.style.background = `linear-gradient(135deg, ${kata.color}40, #00000000)`;
 
   const actionStatus = document.createElement("div");
   actionStatus.classList.add("action-status");
@@ -86,7 +87,7 @@ function createActionCard(action, kata, index, newCard = false) {
   checkbox.classList.add("checkbox");
   actionStatus.appendChild(checkbox);
 
-  if (action.getCompleted()) {
+  if (action.completed) {
     checkbox.checked = true;
     actionCard.classList.add("completed");
   }
@@ -96,15 +97,14 @@ function createActionCard(action, kata, index, newCard = false) {
     action.setCompleted(checkbox.checked);
 
     const completionMeter = document.querySelector(".completion-meter");
-    completionMeter.style.width = `${kata.getCompletionPercentage()}%`;
+    completionMeter.style.width = `${getCompletionPercentage()}%`;
   });
 
   const priorityFlag = document.createElement("img");
   priorityFlag.classList.add("priority-flag");
-  priorityFlag.src =
-    action.getPriority() === "urgent" ? alertIcon : bookmarkIcon;
+  priorityFlag.src = action.priority === "urgent" ? alertIcon : bookmarkIcon;
   priorityFlag.classList.add("priority-flag");
-  priorityFlag.classList.add(`flag-${action.getPriority()}`);
+  priorityFlag.classList.add(`flag-${action.priority}`);
   actionStatus.appendChild(priorityFlag);
 
   const actionDetails = document.createElement("div");
@@ -112,7 +112,7 @@ function createActionCard(action, kata, index, newCard = false) {
 
   const actionTitleValue = document.createElement("p");
   actionTitleValue.classList.add("action-title");
-  actionTitleValue.textContent = action.getTitle();
+  actionTitleValue.textContent = action.title;
   actionDetails.appendChild(actionTitleValue);
 
   const actionDescription = document.createElement("div");
@@ -120,7 +120,7 @@ function createActionCard(action, kata, index, newCard = false) {
 
   const actionDescriptionValue = document.createElement("p");
   actionDescriptionValue.classList.add("action-description-value");
-  actionDescriptionValue.textContent = action.getDescription();
+  actionDescriptionValue.textContent = action.description;
   actionDescription.appendChild(actionDescriptionValue);
 
   actionDetails.appendChild(actionDescription);
@@ -136,7 +136,7 @@ function createActionCard(action, kata, index, newCard = false) {
 
   const dueDateValue = document.createElement("p");
   dueDateValue.classList.add("action-due-date-value");
-  dueDateValue.textContent = format(action.getDueDate(), "dd-MM-yyyy");
+  dueDateValue.textContent = format(action.dueDate, "dd-MM-yyyy");
   actionDueDate.appendChild(dueDateValue);
 
   actionDetails.appendChild(actionDueDate);
@@ -152,7 +152,7 @@ function createActionCard(action, kata, index, newCard = false) {
 
   const priorityValue = document.createElement("p");
   priorityValue.classList.add("action-priority-value");
-  const priorityValueString = action.getPriority();
+  const priorityValueString = action.priority;
   priorityValue.textContent = priorityValueString.replace(
     priorityValueString[0],
     priorityValueString[0].toUpperCase()
@@ -190,13 +190,13 @@ function createActionCard(action, kata, index, newCard = false) {
     const actionTitleInput = document.createElement("input");
     actionTitleInput.classList.add("action-title-input", "action-detail");
     actionTitleInput.placeholder = "Action";
-    actionTitleInput.value = action.getTitle();
+    actionTitleInput.value = action.title;
     actionDetails.replaceChild(actionTitleInput, actionTitleValue);
 
     const actionDescriptionInput = document.createElement("input");
     actionDescriptionInput.classList.add("action-description-input");
     actionDescriptionInput.placeholder = "Description";
-    actionDescriptionInput.value = action.getDescription();
+    actionDescriptionInput.value = action.description;
     actionDescription.replaceChild(
       actionDescriptionInput,
       actionDescriptionValue
@@ -205,7 +205,7 @@ function createActionCard(action, kata, index, newCard = false) {
     const actionDueDateInput = document.createElement("input");
     actionDueDateInput.classList.add("action-due-date-input");
     actionDueDateInput.type = "date";
-    actionDueDateInput.value = format(action.getDueDate(), "yyyy-MM-dd");
+    actionDueDateInput.value = format(action.dueDate, "yyyy-MM-dd");
     actionDueDate.replaceChild(actionDueDateInput, dueDateValue);
 
     const actionPrioritySelect = document.createElement("select");
@@ -233,7 +233,7 @@ function createActionCard(action, kata, index, newCard = false) {
     urgentPriorityOption.text = "Urgent";
     actionPrioritySelect.appendChild(urgentPriorityOption);
 
-    switch (action.getPriority()) {
+    switch (action.priority) {
       case "low":
         lowPriorityOption.selected = true;
         break;
@@ -262,15 +262,13 @@ function createActionCard(action, kata, index, newCard = false) {
         return;
       }
 
-      action.setTitle(actionTitleInput.value);
-      action.setDescription(actionDescriptionInput.value);
-      action.setDueDate(
-        actionDueDateInput.value
-          ? actionDueDateInput.value
-          : action.getDueDate()
-      );
-      action.setPriority(actionPrioritySelect.value);
-      kata.prependAction(action);
+      action.title = actionTitleInput.value;
+      action.description = actionDescriptionInput.value;
+      action.dueDate = actionDueDateInput.value
+        ? actionDueDateInput.value
+        : action.dueDate;
+      action.priority = actionPrioritySelect.value;
+      prependAction(action), kata;
 
       closeCardButton.style.display = "";
 
@@ -298,7 +296,7 @@ function createActionCard(action, kata, index, newCard = false) {
   removeCardButton.addEventListener("click", () => {
     const actionList = document.querySelector(".action-list");
     actionList.removeChild(actionCard);
-    kata.removeAction(index);
+    removeAction(index, kata);
   });
 
   actionCard.appendChild(actionActions);

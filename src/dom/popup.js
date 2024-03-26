@@ -1,9 +1,10 @@
+import { katalist, saveKatalist } from "../katalist";
 import { createKata } from "../kata";
 import { createKataListItem } from "./home";
 
 import crossIcon from "../../assets/icons/x.svg";
 
-function newKataPopup(katas) {
+function newKataPopup() {
   const popupContainer = document.createElement("div");
   popupContainer.classList.add("popup-container");
   document.body.appendChild(popupContainer);
@@ -84,13 +85,13 @@ function newKataPopup(katas) {
   createButton.addEventListener("click", () => {
     const kataList = document.querySelector(".kata-list");
     const newKata = createKata(nameInput.value, colorInput.value);
-    katas.push(newKata);
-    kataList.appendChild(createKataListItem(newKata, katas));
+    katalist.push(newKata);
+    kataList.appendChild(createKataListItem(newKata));
     closePopup();
   });
 }
 
-function editKataPopup(katas, index) {
+function editKataPopup(index) {
   const popupContainer = document.createElement("div");
   popupContainer.classList.add("popup-container");
   document.body.appendChild(popupContainer);
@@ -145,7 +146,7 @@ function editKataPopup(katas, index) {
   const nameInput = document.createElement("input");
   nameInput.classList.add("name-input");
   nameInput.name = "name";
-  nameInput.value = katas[index].getName();
+  nameInput.value = katalist[index].getName();
   nameField.appendChild(nameInput);
 
   const colorField = document.createElement("div");
@@ -161,7 +162,7 @@ function editKataPopup(katas, index) {
   colorInput.classList.add("color-input");
   colorInput.type = "color";
   colorInput.name = "color";
-  colorInput.value = katas[index].getColor();
+  colorInput.value = katalist[index].getColor();
   colorField.appendChild(colorInput);
 
   const saveButton = document.createElement("button");
@@ -172,12 +173,14 @@ function editKataPopup(katas, index) {
 
   saveButton.addEventListener("click", () => {
     const kataList = document.querySelector(".kata-list");
-    katas[index].setName(nameInput.value);
-    katas[index].setColor(colorInput.value);
+    katalist[index].name = nameInput.value;
+    katalist[index].color = colorInput.value;
     kataList.replaceChild(
-      createKataListItem(katas[index]),
+      createKataListItem(katalist[index]),
       kataList.childNodes[index]
     );
+
+    saveKatalist();
     closePopup();
   });
 }

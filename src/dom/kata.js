@@ -1,4 +1,5 @@
 import { createAction } from "../action";
+import { getCompletionPercentage } from "../kata";
 
 import { createActionItem, createActionCard } from "./action";
 
@@ -14,7 +15,7 @@ async function openKataPage(kata) {
   goBackButton.addEventListener("click", closeKataPage);
 
   const kataName = document.querySelector(".kata-name");
-  kataName.textContent = kata.getName();
+  kataName.textContent = kata.name;
 
   const newActionButton = document.querySelector(".new-action-btn");
 
@@ -24,11 +25,11 @@ async function openKataPage(kata) {
   newActionButtonClone.addEventListener("click", () => createActionCard(createAction("", "", "low", new Date()), kata, 0, true));
 
   const headerGutter = document.querySelector(".kata-header-gutter");
-  headerGutter.style.backgroundColor = `${kata.getColor()}80`;
+  headerGutter.style.backgroundColor = `${kata.color}80`;
 
   const completionMeter = document.querySelector(".completion-meter");
-  completionMeter.style.backgroundColor = kata.getColor();
-  completionMeter.style.width = `${kata.getCompletionPercentage()}%`;
+  completionMeter.style.backgroundColor = kata.color;
+  completionMeter.style.width = `${getCompletionPercentage()}%`;
 
   const actionList = document.querySelector(".action-list");
   kata
