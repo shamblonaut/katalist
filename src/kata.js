@@ -12,7 +12,7 @@ function createKata(name, color) {
 
 function addAction(title, description, priority, dueDate, kata) {
   const action = createAction(title, description, priority, dueDate);
-  prependAction(action);
+  prependAction(action, kata);
   return action;
 }
 
