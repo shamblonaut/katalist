@@ -45,7 +45,7 @@ if (loadKatalist() === false) {
   );
   addAction(
     "Expand action to see details",
-    "Well, you just did! 😃",
+    "Never gonna give you up, Never gonna let you down, Never gonna run around and desert you 🕺",
     "high",
     new Date(),
     personalKata
